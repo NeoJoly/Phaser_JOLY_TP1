@@ -39,6 +39,7 @@ function preload(){
 	this.load.image('platform','assets/platform1.png');
 	this.load.image('bomb','assets/bomb.png');
 	this.load.spritesheet('perso','assets/perso.png',{frameWidth: 50, frameHeight: 37});
+	this.load.image();
 }
 
 

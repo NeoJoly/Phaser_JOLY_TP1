@@ -21,7 +21,8 @@ var game = new Phaser.Game(config);
 var score = 0;
 var savesaut = 0;
 var veriftouche = 1;
-var attack = this.input.keyboard.addKey('A');
+var attack;
+var saveattack = 0;
 
 function init(){
  	var platforms;
@@ -54,12 +55,13 @@ function create(){
 	platforms.create(400,300,'platform');
 	platforms.create(700,150,'platform');
 
-	player = this.physics.add.sprite(100,550,'perso');
+	player = this.physics.add.sprite(100,550,'perso').setSize(22, 30).setOffset(14, 7);
 	player.setCollideWorldBounds(true);
 	player.body.setGravityY(1000);
 	this.physics.add.collider(player,platforms);
 
 	cursors = this.input.keyboard.createCursorKeys();
+	attack = this.input.keyboard.addKey('A');
 
 	this.anims.create({
 		key:'right',
@@ -82,6 +84,13 @@ function create(){
 		repeat: -1
 	});
 
+	this.anims.create({
+		key:'attack',
+		frames: this.anims.generateFrameNumbers('perso', {start: 38, end: 58}),
+		frameRate: 20,
+		repeat: -1
+	});
+
 	stars = this.physics.add.group({
 		key: 'etoile',
 		repeat: 11,
@@ -100,6 +109,31 @@ function create(){
 
 
 function update() {
+
+	if (savesaut === 0 && player.body.touching.down && cursors.up.isDown) {
+		player.anims.play('jump', true);
+		player.setVelocityY(-500);
+		savesaut = 1;
+		veriftouche = 0;
+	}
+
+	if (cursors.up.isDown) {
+		player.anims.play('jump', true);
+	}
+
+	if (cursors.up.isUp) {
+		veriftouche = 1;
+	}
+	if (savesaut === 1 && cursors.up.isDown && veriftouche === 1) {
+		player.setVelocityY(-500);
+		savesaut = 0;
+	}
+
+
+	else if (cursors.down.isDown && !player.body.touching.down) {
+    player.setVelocityY(2000);
+    player.anims.play('stop', true);
+	}
 	if (cursors.right.isDown) {
 		player.anims.play('right', true);
 		player.setVelocityX(300);
@@ -108,7 +142,7 @@ function update() {
 		player.setVelocityX(-300);
 		player.anims.play('right', true);
 		player.setFlipX(true);
-	} else {
+	} else  {
 		player.anims.play('stop', true);
 		player.setVelocityX(0);
 	}
@@ -116,22 +150,10 @@ function update() {
 
 
 
-	if (savesaut === 0 && player.body.touching.down && cursors.up.isDown) {
-		player.anims.play('jump', true);
-		player.setVelocityY(-500);
-		savesaut = 1;
-		veriftouche = 0;
-	} else if (cursors.down.isDown && !player.body.touching.down) {
-    player.setVelocityY(2000);
-    player.anims.play('stop', true);
+	if (saveattack === 0 && attack.isDown) {
+		player.anims.play('attack', true);
 	}
-	if (cursors.up.isUp) {
-		veriftouche = 1;
-	}
-	if (savesaut === 1 && cursors.up.isDown && veriftouche === 1) {
-		player.setVelocityY(-500);
-		savesaut = 0;
-	}
+
 
 
 

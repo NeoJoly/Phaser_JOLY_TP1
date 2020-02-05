@@ -21,6 +21,7 @@ var game = new Phaser.Game(config);
 var score = 0;
 var savesaut = 0;
 var veriftouche = 1;
+var attack = this.input.keyboard.addKey('A');
 
 function init(){
  	var platforms;

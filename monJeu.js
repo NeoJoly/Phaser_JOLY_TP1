@@ -23,6 +23,12 @@ var savesaut = 0;
 var veriftouche = 1;
 var attack;
 var saveattack = 0;
+var vie = 4;
+var heart4;
+var heart3;
+var heart2;
+var heart1;
+var heart0;
 
 function init(){
  	var platforms;
@@ -39,6 +45,11 @@ function preload(){
 	this.load.image('platform','assets/platform1.png');
 	this.load.image('bomb','assets/bomb.png');
 	this.load.spritesheet('perso','assets/perso.png',{frameWidth: 50, frameHeight: 37});
+	this.load.image('heart4','assets/heart/heart4.png');
+	this.load.image('heart3','assets/heart/heart3.png');
+	this.load.image('heart2','assets/heart/heart2.png');
+	this.load.image('heart1','assets/heart/heart1.png');
+	this.load.image('heart0','assets/heart/heart0.png');
 }
 
 
@@ -104,6 +115,8 @@ function create(){
 	bombs = this.physics.add.group();
 	this.physics.add.collider(bombs,platforms);
 	this.physics.add.collider(player,bombs, hitBomb, null, this);
+
+	heart4 = this.add.image(740,20,'heart4').setScale(1.5);
 }
 
 
@@ -159,13 +172,30 @@ function update() {
 
 }
 
-function hitBomb(player, bomb){
-	this.physics.pause();
-	player.setTint(0xff0000);
-	gameOver=true;
+function hitBomb(player, bomb) {
+	vie-=1;
+	if (vie == 3) {
+		heart4.destroy(true);
+		heart3 = this.add.image(740,20,'heart3').setScale(1.5);
+	}
+	if (vie == 2) {
+		heart3.destroy(true);
+		heart2 = this.add.image(740,20,'heart2').setScale(1.5);
+	}
+	if (vie == 1) {
+		heart2.destroy(true);
+		heart1 = this.add.image(740,20,'heart1').setScale(1.5);
+	}
+	if (vie == 0) {
+		heart1.destroy(true);
+		heart0 = this.add.image(740,20,'heart0').setScale(1.5);
+		this.physics.pause();
+		player.setTint(0xff0000);
+		gameOver=true;
+	}
 }
 
-function collectStar(player, star){
+function collectStar(player, star) {
 	star.disableBody(true,true);
 	score += 10;
 	scoreText.setText('score: '+score);

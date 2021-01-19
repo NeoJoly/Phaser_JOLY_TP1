@@ -44,7 +44,9 @@ function preload(){
 	this.load.image('etoile','assets/star.png');
 	this.load.image('platform','assets/platform1.png');
 	this.load.image('bomb','assets/bomb.png');
-	this.load.spritesheet('perso','assets/perso.png',{frameWidth: 50, frameHeight: 37});
+	this.load.spritesheet('marche','assets/marche.png',{frameWidth: 21, frameHeight: 33});
+	this.load.spritesheet('saut','assets/saut.png',{frameWidth: 37, frameHeight: 38});
+	this.load.spritesheet('idle','assets/idle.png',{frameWidth: 21, frameHeight: 33});
 	this.load.image('heart4','assets/heart/heart4.png');
 	this.load.image('heart3','assets/heart/heart3.png');
 	this.load.image('heart2','assets/heart/heart2.png');
@@ -66,7 +68,7 @@ function create(){
 	platforms.create(400,300,'platform');
 	platforms.create(700,150,'platform');
 
-	player = this.physics.add.sprite(100,550,'perso').setSize(22, 30).setOffset(14, 7);
+	player = this.physics.add.sprite(100,550,'marche');
 	player.setCollideWorldBounds(true);
 	player.body.setGravityY(1000);
 	this.physics.add.collider(player,platforms);
@@ -76,31 +78,31 @@ function create(){
 
 	this.anims.create({
 		key:'right',
-		frames: this.anims.generateFrameNumbers('perso', {start: 8, end: 13}),
+		frames: this.anims.generateFrameNumbers('marche', {start: 0, end: 3}),
 		frameRate: 10,
 		repeat: -1
 	});
 
 	this.anims.create({
 		key:'stop',
-		frames: this.anims.generateFrameNumbers('perso', {start: 0, end: 3}),
+		frames: this.anims.generateFrameNumbers('idle', {start: 0, end: 1}),
 		frameRate: 5,
 		repeat: -1
 	});
 
 	this.anims.create({
 		key:'jump',
-		frames: this.anims.generateFrameNumbers('perso', {start: 14, end: 23}),
-		frameRate: 20,
+		frames: this.anims.generateFrameNumbers('saut', {start: 0, end: 7}),
+		frameRate: 10,
 		repeat: -1
 	});
 
-	this.anims.create({
+	/*this.anims.create({
 		key:'attack',
 		frames: this.anims.generateFrameNumbers('perso', {start: 38, end: 58}),
 		frameRate: 20,
 		repeat: -1
-	});
+	});*/
 
 	stars = this.physics.add.group({
 		key: 'etoile',
@@ -163,9 +165,9 @@ function update() {
 
 
 
-	if (saveattack === 0 && attack.isDown) {
+	/*if (saveattack === 0 && attack.isDown) {
 		player.anims.play('attack', true);
-	}
+	}*/
 
 
 
